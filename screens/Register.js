@@ -13,7 +13,13 @@ import { AntDesign } from '@expo/vector-icons';
 
 import theme from '../theme'
 
-export default function RegisterScreen({ navigation }) {
+export default function RegisterScreen({
+  navigation,
+  date,
+  setDate,
+  setKm,
+  addData,
+}) {
   return (
     <SafeAreaView style={styles.container}>
       <Text
@@ -27,22 +33,36 @@ export default function RegisterScreen({ navigation }) {
         <Input
           rounded
           placeholder="Fecha de Hoy"
+          onChangeText={setDate}
+          value={date}
           placeholderTextColor={theme.COLORS.INFO}
           style={styles.input}
         />
         <Input
           rounded
           placeholder="Kilometraje"
+          onChangeText={setKm}
           placeholderTextColor={theme.COLORS.INFO}
           style={styles.input}
         />
         <Button
           round
           color="warning"
-          style={styles.button}
-          onPress={() => navigation.push('Lista')}
+          style={styles.buttonSuccess}
+          onPress={() => {
+            addData()
+            navigation.push('Historial')
+          }}
         >
-          Continuar
+          Confirmar Registro
+        </Button>
+        <Button
+          round
+          color="info"
+          style={styles.buttonError}
+          onPress={() => navigation.push('Historial')}
+        >
+          Historial
         </Button>
       </View>
     </SafeAreaView>
@@ -55,9 +75,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start'
   },
-  button: {
+  buttonSuccess: {
     width: '90%',
     marginTop: 45
+  },
+  buttonError: {
+    width: '90%',
+    marginTop: 5
   },
   input: {
     borderColor: theme.COLORS.INFO,

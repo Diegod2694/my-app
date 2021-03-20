@@ -7,31 +7,13 @@ import {
   View,
   Dimensions
 } from 'react-native';
-import { Card } from 'galio-framework';
+import { Card, Button } from 'galio-framework';
 
 import theme from '../theme';
 
 const { width } = Dimensions.get('screen');
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    date: '10/01/2021',
-    km: 100,
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    date: '10/02/2021',
-    km: 200,
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    date: '10/03/2021',
-    km: 300,
-  },
-];
-
-export default function ListScreen() {
+export default function ListScreen({ navigation, data }) {
 
   const Item = ({ date, km }) => (
     <Card
@@ -39,8 +21,9 @@ export default function ListScreen() {
       borderless
       shadowColor={theme.COLORS.BLACK}
       style={styles.card}
-      caption={km}
-      location={date}
+      title={`Cambiado el ${date}`}
+      caption={`${km} Kilometros`}
+      avatar="https://cms-assets.tutsplus.com/uploads/users/523/posts/32694/final_image/tutorial-preview-large.png"
     />
   );
 
@@ -55,10 +38,18 @@ export default function ListScreen() {
   return (
     <SafeAreaView style={styles.containerScroll}>
       <FlatList
-        data={DATA}
+        data={data}
         renderItem={renderItem}
         keyExtractor={item => item.id}
       />
+      <Button
+        round
+        color="warning"
+        style={styles.button}
+        onPress={() => navigation.push('Registro')}
+      >
+        Nuevo Registro
+      </Button>
     </SafeAreaView>
   );
 }
@@ -66,6 +57,8 @@ export default function ListScreen() {
 const styles = StyleSheet.create({
   containerScroll: {
     flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: StatusBar.currentHeight || 0,
   },
   title: {
@@ -78,7 +71,8 @@ const styles = StyleSheet.create({
     marginVertical: theme.SIZES.BASE - 10,
     marginHorizontal: theme.SIZES.BASE - 10,
   },
-  cardImageRadius: {
-    borderRadius: theme.SIZES.BASE * 0.1875,
+  button: {
+    width: '90%',
+    marginBottom: 45
   },
 });
